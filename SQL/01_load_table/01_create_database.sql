@@ -33,3 +33,4 @@
     FROM 'D:\Mine\Projects\framingham_heart_risk_analysis\Data\1_cleaned_data\framingham_cleaned.csv'
     WITH (FORMAT csv, HEADER TRUE, DELIMITER ',', ENCODING 'UTF8');
     SELECT * FROM framingham_cleaned
+
