@@ -67,7 +67,27 @@
   FROM framingham_cleaned
   GROUP BY chd_risk_10yr;
 
+
+  -- Smoking vs CHD 
+
+      SELECT
+      is_smoker,
+      COUNT(*) AS total_people,
+      SUM(CASE WHEN chd_risk_10yr='Yes' THEN 1 ELSE 0 END) AS chd_cases,
+      ROUND(
+          SUM(CASE WHEN chd_risk_10yr='Yes' THEN 1 ELSE 0 END) * 100.0
+          / COUNT(*), 2
+      ) AS chd_percentage
+  FROM framingham_cleaned
+  GROUP BY is_smoker;
+
+
+
+
+
+
  -- How Much Diabetes Effect Chd 
+
   SELECT
       has_diabetes,
       COUNT(*) AS total_people,
@@ -78,6 +98,37 @@
       ) AS chd_percentage
   FROM framingham_cleaned
   GROUP BY has_diabetes;
+
+ -- How Much Hypertension Effect Chd 
+
+  SELECT
+      has_hypertension,
+      COUNT(*) AS total_people,
+      SUM(CASE WHEN chd_risk_10yr='Yes' THEN 1 ELSE 0 END) AS chd_cases,
+      ROUND(
+          SUM(CASE WHEN chd_risk_10yr='Yes' THEN 1 ELSE 0 END) * 100.0
+          / COUNT(*), 2
+      ) AS chd_percentage
+  FROM framingham_cleaned
+  GROUP BY has_hypertension;
+
+  -- How Much Stroke Effect The CHD 
+  
+  SELECT
+      had_stroke,
+      COUNT(*) AS total_people,
+      SUM(CASE WHEN chd_risk_10yr='Yes' THEN 1 ELSE 0 END) AS chd_cases,
+      ROUND(
+          SUM(CASE WHEN chd_risk_10yr='Yes' THEN 1 ELSE 0 END) * 100.0
+          / COUNT(*), 2
+      ) AS chd_percentage
+  FROM framingham_cleaned
+  GROUP BY had_stroke;
+
+
+
+
+
 
 
 
