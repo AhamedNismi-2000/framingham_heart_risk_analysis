@@ -48,9 +48,27 @@
   GROUP BY gender,age_band 
   ORDER BY gender,age_band ;
 
+  
+-- Smokers with CHD risk consume an average of 20.61 cigarettes per day compared to
+-- 17.96 cigarettes per day among smokers without CHD risk
+
+  SELECT
+    chd_risk_10yr,
+    ROUND(AVG(cigarettes_per_day)::numeric,2) AS avg_cigarettes_per_day
+  FROM framingham_cleaned
+  WHERE is_smoker = 'Yes'
+  GROUP BY chd_risk_10yr;
 
 
-    
+  SELECT 
+     COUNT(id)
+  FROM framingham_cleaner
+  WHERE is_smoker = 'No'
+
+
+
+
+
 
   
 
