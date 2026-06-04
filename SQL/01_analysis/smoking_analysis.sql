@@ -126,6 +126,27 @@
   GROUP BY had_stroke;
 
 
+  ---"BMI demonstrates a clear relationship with CHD risk. Individuals with a normal BMI show a CHD prevalence of 12.20%,
+  --  compared with 17.14% among overweight individuals and 19.48% among obese individuals.
+  --   The findings suggest that excess body weight is associated with increased cardiovascular risk,
+  --    with obese individuals exhibiting the highest prevalence of CHD risk
+
+  SELECT
+      CASE
+          WHEN bmi < 25 THEN 'Normal'
+          WHEN bmi < 30 THEN 'Overweight'
+          ELSE 'Obese'
+      END AS bmi_band,
+      COUNT(*) AS total_people,
+      SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_cases,
+      ROUND(
+          SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) * 100.0
+          / COUNT(*),
+          2
+      ) AS chd_percentage
+  FROM framingham_cleaned
+  GROUP BY bmi_band
+  ORDER BY chd_percentage DESC;
 
 
 
