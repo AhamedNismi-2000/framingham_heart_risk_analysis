@@ -20,22 +20,39 @@
     GROUP BY gender
 
 
-  -- Among individuals with a 10-year CHD risk, smoking behavior shows clear variation by gender.
-  -- Males exhibit a higher smoking prevalence and greater average cigarette consumption compared to females, 
-  -- while females demonstrate a higher proportion of non-smokers within the high-risk group.
-  --   This suggests smoking is a strong contributing risk factor for CHD, although it is not the only determinant, 
-  --   as other lifestyle and biological factors may also influence risk
+
+
+
+-- Among individuals with a 10-year CHD risk,
+--  smoking behavior varies significantly across both gender and age bands.
+--   Males generally exhibit higher smoking prevalence and higher average cigarette consumption compared to females across most age groups.+
+--  The 50–59 age band shows the highest concentration of smoking activity, indicating increased behavioral risk in mid-to-late adulthood.
   
   SELECT 
       gender,
+       CASE 
+        WHEN age BETWEEN 30 AND 39 THEN '30-39'
+        WHEN age BETWEEN 40 AND 49 THEN '40-49'
+        WHEN age BETWEEN 50 AND 59 THEN '50-59'
+        WHEN age BETWEEN 60 AND 69 THEN '60-69'
+        WHEN age >= 70 THEN '70+'
+    END AS age_band,
       COUNT(*) AS total_people,
-      ROUND(SUM(CASE WHEN is_smoker='Yes' THEN 1 ELSE 0 END)  * 100.0 / COUNT(*),2) AS smokers,
-      ROUND(SUM(CASE WHEN is_smoker='No' THEN 1 ELSE 0 END)  * 100.0 / COUNT(*) ,2)AS non_smokers,
+      SUM(CASE WHEN is_smoker='Yes' THEN 1 ELSE 0 END) AS smokers,
+      SUM(CASE WHEN is_smoker='No' THEN 1 ELSE 0 END) AS non_smokers,
+      ROUND(SUM(CASE WHEN is_smoker='Yes' THEN 1 ELSE 0 END)  * 100.0 / COUNT(*),2) AS smokers_prcnt,
+      ROUND(SUM(CASE WHEN is_smoker='No' THEN 1 ELSE 0 END)  * 100.0 / COUNT(*) ,2)AS non_smokers_prcnt,
       ROUND(AVG(cigarettes_per_day)::numeric,2) AS avg_cigarettes_per_day
   FROM framingham_cleaned
   WHERE chd_risk_10yr = 'Yes'
-  GROUP BY gender;
+  GROUP BY gender,age_band 
+  ORDER BY gender,age_band ;
 
+
+
+    
+
+  
 
      SELECT * FROM  framingham_cleaned
 
