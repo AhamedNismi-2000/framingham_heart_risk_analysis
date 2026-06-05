@@ -149,6 +149,32 @@
   ORDER BY chd_percentage DESC;
 
 
+    -- Top Risk Age Group
+
+   SELECT
+        CASE
+            WHEN age BETWEEN 30 AND 39 THEN '30-39'
+            WHEN age BETWEEN 40 AND 49 THEN '40-49'
+            WHEN age BETWEEN 50 AND 59 THEN '50-59'
+            WHEN age BETWEEN 60 AND 69 THEN '60-69'
+            ELSE '70+'
+        END AS age_band,
+
+    COUNT(*) AS total_people,
+
+    SUM(CASE WHEN chd_risk_10yr='Yes' THEN 1 ELSE 0 END) AS chd_cases,
+
+    ROUND(
+        SUM(CASE WHEN chd_risk_10yr='Yes' THEN 1 ELSE 0 END)
+        * 100.0 / COUNT(*),
+        2
+    ) AS chd_percentage
+
+    FROM framingham_cleaned
+    GROUP BY age_band
+    ORDER BY chd_percentage DESC;
+
+
 
 
 
