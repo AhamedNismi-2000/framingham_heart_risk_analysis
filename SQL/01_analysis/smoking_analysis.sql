@@ -1,13 +1,27 @@
--- Total Male Female 
-
-    SELECT 
-    gender,
-    COUNT(gender) AS count
-    FROM framingham_cleaned  
-    GROUP BY gender
+-- =====================================================
+-- Framingham Heart Disease Analysis
+-- Objective:
+-- Explore factors associated with 10-year Coronary Heart Disease (CHD) risk.
+-- =====================================================
 
 
-  -- How Many Male Effect By Coronary Heart Disease
+
+-- =====================================================
+-- 1. Gender Distribution
+-- Determine the number of male and female participants.
+-- =====================================================
+
+    SELECT
+        gender,
+        COUNT(*) AS total_people
+    FROM framingham_cleaned
+    GROUP BY gender;
+
+
+-- =====================================================
+-- 2. CHD Risk Distribution by Gender
+-- Analyze how CHD risk differs between males and females.
+-- =====================================================
 
     SELECT 
       gender,
@@ -179,30 +193,14 @@
 
 
 
--- =====================================================
--- Framingham Heart Disease Analysis
--- Objective:
--- Explore factors associated with 10-year Coronary Heart Disease (CHD) risk.
--- =====================================================
-
-
--- =====================================================
--- 1. Gender Distribution
--- Determine the number of male and female participants.
--- =====================================================
-
-SELECT
-    gender,
-    COUNT(*) AS total_people
-FROM framingham_cleaned
-GROUP BY gender;
 
 
 
--- =====================================================
--- 2. CHD Risk Distribution by Gender
--- Analyze how CHD risk differs between males and females.
--- =====================================================
+
+
+
+
+
 
 SELECT
     gender,
@@ -217,9 +215,7 @@ SELECT
 
     ROUND(
         COUNT(CASE WHEN chd_risk_10yr = 'No' THEN 1 END)
-        * 100.0 / COUNT(*),
-        2
-    ) AS non_chd_percentage,
+        * 100.0 / COUNT(*), 2) AS non_chd_percentage,
 
     COUNT(*) AS total_people
 FROM framingham_cleaned
