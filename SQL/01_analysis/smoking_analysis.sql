@@ -253,8 +253,21 @@
     GROUP BY gender, is_smoker
     ORDER BY gender, chd_risk_pct DESC;
 
+  -- Compare multiple clinical metrics between risk groups
 
-       
+    SELECT 
+        chd_risk_10yr,
+        COUNT(*) AS patient_count,
+        ROUND(AVG(systolic_bp)::numeric , 1)AS avg_systolic_bp,
+        ROUND(AVG(diastolic_bp)::numeric, 1) AS avg_diastolic_bp,
+        ROUND(AVG(total_cholesterol)::numeric, 1) AS avg_cholesterol,
+        ROUND(AVG(bmi)::numeric, 1) AS avg_bmi,
+        ROUND(AVG(glucose_level)::numeric, 1) AS avg_glucose,
+        ROUND(AVG(heart_rate)::numeric, 1) AS avg_heart_rate
+    FROM framingham_cleaned
+    WHERE has_outlier_flag = False
+    GROUP BY chd_risk_10yr;
         
+            
       
         
