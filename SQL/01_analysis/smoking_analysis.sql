@@ -211,6 +211,34 @@
     WHERE has_outlier_flag = False;  
 
 
+
+    -- Age group breakdown for risk trend visualization
+    WITH age_groups AS (
+        SELECT 
+            CASE 
+                WHEN age < 40 THEN '18-39'
+                WHEN age BETWEEN 40 AND 49 THEN '40-49'
+                WHEN age BETWEEN 50 AND 59 THEN '50-59'
+                WHEN age BETWEEN 60 AND 69 THEN '60-69'
+                ELSE '70+'
+            END AS age_group,
+            chd_risk_10yr,
+            has_outlier_flag
+        FROM framingham_cleaned
+    )
+    SELECT 
+        age_group,
+        COUNT(*) AS patient_count,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS risk_pct,
+        ROUND(AVG(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) * 100, 2) AS risk_rate
+    FROM age_groups
+    WHERE has_outlier_flag = False
+    GROUP BY age_group
+    ORDER BY MIN(CASE age_group 
+        WHEN '18-39' THEN 1 WHEN '40-49' THEN 2 
+        WHEN '50-59' THEN 3 WHEN '60-69' THEN 4 ELSE 5 END);
+
+
        
         
       
