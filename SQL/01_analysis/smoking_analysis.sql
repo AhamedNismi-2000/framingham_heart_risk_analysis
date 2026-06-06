@@ -239,6 +239,21 @@
         WHEN '50-59' THEN 3 WHEN '60-69' THEN 4 ELSE 5 END);
 
 
+
+        -- Gender + smoking combination vs CHD risk
+    SELECT 
+        gender,
+        is_smoker,
+        COUNT(*) AS total,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_positive,
+        ROUND(100.0 * AVG(CASE WHEN chd_risk_10yr = 'Yes' THEN 1.0 ELSE 0.0 END), 2) AS chd_risk_pct,
+        ROUND(AVG(cigarettes_per_day)::numeric, 1) AS avg_cigarettes
+    FROM framingham_cleaned
+    WHERE has_outlier_flag = False AND cigarettes_per_day IS NOT NULL
+    GROUP BY gender, is_smoker
+    ORDER BY gender, chd_risk_pct DESC;
+
+
        
         
       
