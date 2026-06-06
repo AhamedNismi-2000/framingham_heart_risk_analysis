@@ -282,7 +282,22 @@
     WHERE has_outlier_flag = False
     GROUP BY has_hypertension, on_bp_medication
     ORDER BY has_hypertension DESC, on_bp_medication DESC;
-            
-            
-      
+
+
+
+    -- Socioeconomic factor analysis
+
+    SELECT 
+        education_level,
+        COUNT(*) AS total_patients,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)::numeric / COUNT(*), 2) AS risk_pct,
+        ROUND(AVG(age)::numeric, 1) AS avg_age,
+        ROUND(100.0 * SUM(CASE WHEN is_smoker = 'Yes' THEN 1 ELSE 0 END)::numeric / COUNT(*), 2) AS smoker_pct
+    FROM framingham_cleaned
+    WHERE has_outlier_flag = False AND education_level != 'Unknown'
+    GROUP BY education_level
+    ORDER BY risk_pct DESC;
+                
+                
         
+            
