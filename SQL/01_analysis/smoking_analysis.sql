@@ -195,3 +195,23 @@
 
      SELECT * FROM  framingham_cleaned
 
+
+     -- High-level KPIs for executive dashboard
+     
+    SELECT 
+        COUNT(*) AS total_patients,
+        ROUND(AVG(age)::numeric, 1) AS avg_age,
+        ROUND(AVG(bmi)::numeric, 1) AS avg_bmi,
+        ROUND(AVG(systolic_bp)::numeric, 0) AS avg_systolic_bp,
+        ROUND(100.0 * SUM(CASE WHEN is_smoker = 'Yes' THEN 1 ELSE 0 END)/ COUNT(*), 2) AS smoker_pct,
+        ROUND(100.0 * SUM(CASE WHEN has_hypertension = 'Yes' THEN 1 ELSE 0 END)/ COUNT(*), 2) AS hypertension_pct,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_risk_pct,
+        ROUND(100.0 * SUM(CASE WHEN has_diabetes = 'Yes' THEN 1 ELSE 0 END) / COUNT(*) , 2) AS diabetes_pct
+    FROM framingham_cleaned
+    WHERE has_outlier_flag = False;  
+
+
+       
+        
+      
+        
