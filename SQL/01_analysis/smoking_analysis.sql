@@ -267,7 +267,22 @@
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY chd_risk_10yr;
-        
+
+
+    -- Blood pressure medication effectiveness analysis
+
+    SELECT 
+        has_hypertension,
+        on_bp_medication,
+        COUNT(*) AS patient_count,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)::numeric / COUNT(*), 2) AS chd_risk_pct,
+        ROUND(AVG(systolic_bp) ::numeric, 0) AS avg_sbp,
+        ROUND(AVG(diastolic_bp)::numeric, 0) AS avg_dbp
+    FROM framingham_cleaned
+    WHERE has_outlier_flag = False
+    GROUP BY has_hypertension, on_bp_medication
+    ORDER BY has_hypertension DESC, on_bp_medication DESC;
+            
             
       
         
