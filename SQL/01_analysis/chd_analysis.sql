@@ -19,11 +19,11 @@
     -- =====================================================
 
     SELECT
-        COUNT(*)                                                                          AS total_patients,
-        SUM(CASE WHEN has_outlier_flag = False THEN 1 ELSE 0 END)                        AS clean_patients,
-        ROUND(AVG(age)::NUMERIC, 1)                                                       AS avg_age,
-        ROUND(AVG(bmi)::NUMERIC, 1)                                                       AS avg_bmi,
-        ROUND(AVG(systolic_bp)::NUMERIC, 0)                                               AS avg_systolic_bp,
+        COUNT(*)  AS total_patients,
+        SUM(CASE WHEN has_outlier_flag = False THEN 1 ELSE 0 END) AS clean_patients,
+        ROUND(AVG(age)::NUMERIC, 1)  AS avg_age,
+        ROUND(AVG(bmi)::NUMERIC, 1) AS avg_bmi,
+        ROUND(AVG(systolic_bp)::NUMERIC, 0)  AS avg_systolic_bp,
         ROUND(100.0 * SUM(CASE WHEN is_smoker        = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS smoker_pct,
         ROUND(100.0 * SUM(CASE WHEN has_hypertension = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS hypertension_pct,
         ROUND(100.0 * SUM(CASE WHEN has_diabetes     = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS diabetes_pct,
@@ -55,11 +55,11 @@
 
     SELECT
         gender,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                              AS chd_cases,
-        SUM(CASE WHEN chd_risk_10yr = 'No'  THEN 1 ELSE 0 END)                              AS no_chd_cases,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_cases,
+        SUM(CASE WHEN chd_risk_10yr = 'No'  THEN 1 ELSE 0 END) AS no_chd_cases,
         ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_pct,
         ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'No'  THEN 1 ELSE 0 END) / COUNT(*), 2) AS no_chd_pct,
-        COUNT(*)                                                                              AS total
+        COUNT(*)  AS total
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY gender
@@ -81,13 +81,13 @@
             WHEN age BETWEEN 60 AND 69 THEN '60-69'
             WHEN age >= 70              THEN '70+'
             ELSE 'Unknown'
-        END                                                                                   AS age_band,
-        COUNT(*)                                                                              AS total_chd_patients,
-        SUM(CASE WHEN is_smoker = 'Yes' THEN 1 ELSE 0 END)                                   AS smokers,
-        SUM(CASE WHEN is_smoker = 'No'  THEN 1 ELSE 0 END)                                   AS non_smokers,
-        ROUND(100.0 * SUM(CASE WHEN is_smoker = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)      AS smoker_pct,
-        ROUND(100.0 * SUM(CASE WHEN is_smoker = 'No'  THEN 1 ELSE 0 END) / COUNT(*), 2)      AS non_smoker_pct,
-        ROUND(AVG(cigarettes_per_day)::NUMERIC, 2)                                            AS avg_cigarettes_per_day
+        END AS age_band,
+        COUNT(*)  AS total_chd_patients,
+        SUM(CASE WHEN is_smoker = 'Yes' THEN 1 ELSE 0 END)  AS smokers,
+        SUM(CASE WHEN is_smoker = 'No'  THEN 1 ELSE 0 END) AS non_smokers,
+        ROUND(100.0 * SUM(CASE WHEN is_smoker = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS smoker_pct,
+        ROUND(100.0 * SUM(CASE WHEN is_smoker = 'No'  THEN 1 ELSE 0 END) / COUNT(*), 2) AS non_smoker_pct,
+        ROUND(AVG(cigarettes_per_day)::NUMERIC, 2) AS avg_cigarettes_per_day
     FROM framingham_cleaned
     WHERE chd_risk_10yr  = 'Yes'
     AND has_outlier_flag = False
@@ -103,10 +103,10 @@
 
     SELECT
         chd_risk_10yr,
-        COUNT(*)                                           AS smoker_count,
-        ROUND(AVG(cigarettes_per_day)::NUMERIC, 2)         AS avg_cigarettes_per_day,
-        ROUND(MIN(cigarettes_per_day)::NUMERIC, 0)         AS min_cigarettes,
-        ROUND(MAX(cigarettes_per_day)::NUMERIC, 0)         AS max_cigarettes
+        COUNT(*)  AS smoker_count,
+        ROUND(AVG(cigarettes_per_day)::NUMERIC, 2) AS avg_cigarettes_per_day,
+        ROUND(MIN(cigarettes_per_day)::NUMERIC, 0) AS min_cigarettes,
+        ROUND(MAX(cigarettes_per_day)::NUMERIC, 0) AS max_cigarettes
     FROM framingham_cleaned
     WHERE is_smoker       = 'Yes'
     AND has_outlier_flag = False
@@ -122,10 +122,10 @@
 
     SELECT
         chd_risk_10yr,
-        COUNT(*)                          AS patient_count,
-        ROUND(AVG(age)::NUMERIC, 2)       AS avg_age,
-        MIN(age)                          AS min_age,
-        MAX(age)                          AS max_age
+        COUNT(*) AS patient_count,
+        ROUND(AVG(age)::NUMERIC, 2) AS avg_age,
+        MIN(age) AS min_age,
+        MAX(age)  AS max_age
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY chd_risk_10yr
@@ -141,7 +141,7 @@
     WITH age_groups AS (
         SELECT
             CASE
-                WHEN age < 40              THEN '18-39'
+                WHEN age < 40 THEN '18-39'
                 WHEN age BETWEEN 40 AND 49 THEN '40-49'
                 WHEN age BETWEEN 50 AND 59 THEN '50-59'
                 WHEN age BETWEEN 60 AND 69 THEN '60-69'
@@ -153,9 +153,9 @@
     )
     SELECT
         age_group,
-        COUNT(*)                                                                              AS patient_count,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                               AS chd_cases,
-        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)  AS chd_risk_pct
+        COUNT(*) AS patient_count,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)  AS chd_cases,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_risk_pct
     FROM age_groups
     GROUP BY age_group
     ORDER BY MIN(CASE age_group
@@ -171,9 +171,9 @@
 
     SELECT
         is_smoker,
-        COUNT(*)                                                                              AS total_people,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                               AS chd_cases,
-        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)  AS chd_pct
+        COUNT(*)  AS total_people,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_cases,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_pct
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY is_smoker
@@ -183,20 +183,44 @@
 
     -- =====================================================
     -- 8. GENDER + SMOKING COMBINATION VS CHD RISK
+    -- The More Than Average (20 cigarettes Per Day Users Get More CHD risk)
+    -- So That Day Per Cigarettes 
     -- =====================================================
 
     SELECT
         gender,
-        is_smoker,
-        COUNT(*)                                                                              AS total,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                               AS chd_positive,
-        ROUND(100.0 * AVG(CASE WHEN chd_risk_10yr = 'Yes' THEN 1.0 ELSE 0.0 END), 2)         AS chd_risk_pct,
-        ROUND(AVG(cigarettes_per_day)::NUMERIC, 1)                                            AS avg_cigarettes
+        CASE
+            WHEN cigarettes_per_day BETWEEN 1 AND 19 THEN 'Normal Smoker'
+            WHEN cigarettes_per_day BETWEEN 20 AND 39 THEN 'Average Smoker'
+            WHEN cigarettes_per_day BETWEEN 40 AND 59 THEN 'Heavy Smoker'
+            WHEN cigarettes_per_day >= 60 THEN 'Ultra Smoker'
+        END AS smoker_band,
+        COUNT(*) AS total_people,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_positive,
+        ROUND(100.0 * AVG( CASE WHEN chd_risk_10yr = 'Yes' THEN 1.0 ELSE 0.0 END ), 2) AS chd_risk_pct,
+    ROUND(AVG(cigarettes_per_day)::NUMERIC, 1) AS avg_cigarettes
     FROM framingham_cleaned
-    WHERE has_outlier_flag    = False
+    WHERE has_outlier_flag = FALSE
+    AND cigarettes_per_day > 0
+    GROUP BY  gender,smoker_band
+    ORDER BY gender, avg_cigarettes;
+
+
+
+    SELECT
+        gender,
+        is_smoker,
+        COUNT(*) AS total,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)  AS chd_positive,
+        ROUND(100.0 * AVG(CASE WHEN chd_risk_10yr = 'Yes' THEN 1.0 ELSE 0.0 END), 2) AS chd_risk_pct,
+        ROUND(AVG(cigarettes_per_day)::NUMERIC, 1)  AS avg_cigarettes
+    FROM framingham_cleaned
+    WHERE has_outlier_flag = False
     AND cigarettes_per_day IS NOT NULL
     GROUP BY gender, is_smoker
     ORDER BY gender, chd_risk_pct DESC;
+
+    
 
 
 
@@ -206,9 +230,9 @@
 
     SELECT
         has_diabetes,
-        COUNT(*)                                                                              AS total_people,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                               AS chd_cases,
-        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)  AS chd_pct
+        COUNT(*)  AS total_people,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_cases,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_pct
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY has_diabetes
@@ -222,9 +246,9 @@
 
     SELECT
         has_hypertension,
-        COUNT(*)                                                                              AS total_people,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                               AS chd_cases,
-        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)  AS chd_pct
+        COUNT(*) AS total_people,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_cases,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_pct
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY has_hypertension
@@ -240,10 +264,10 @@
     SELECT
         has_hypertension,
         on_bp_medication,
-        COUNT(*)                                                                                     AS patient_count,
+        COUNT(*) AS patient_count,
         ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)::NUMERIC / COUNT(*), 2) AS chd_risk_pct,
-        ROUND(AVG(systolic_bp)::NUMERIC,  0)                                                          AS avg_sbp,
-        ROUND(AVG(diastolic_bp)::NUMERIC, 0)                                                          AS avg_dbp
+        ROUND(AVG(systolic_bp)::NUMERIC,0) AS avg_sbp,
+        ROUND(AVG(diastolic_bp)::NUMERIC,0) AS avg_dbp
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY has_hypertension, on_bp_medication
@@ -257,9 +281,9 @@
 
     SELECT
         had_stroke,
-        COUNT(*)                                                                              AS total_people,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                               AS chd_cases,
-        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)  AS chd_pct
+        COUNT(*) AS total_people,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_cases,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_pct
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY had_stroke
@@ -283,10 +307,10 @@
             WHEN bmi < 25    THEN 'Normal (<25)'
             WHEN bmi < 30    THEN 'Overweight (25-29.9)'
             ELSE                  'Obese (30+)'
-        END                                                                                    AS bmi_band,
-        COUNT(*)                                                                               AS total_people,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                                AS chd_cases,
-        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)   AS chd_pct
+        END AS bmi_band,
+        COUNT(*)  AS total_people,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)  AS chd_cases,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_pct
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY bmi_band
@@ -302,13 +326,13 @@
 
     SELECT
         chd_risk_10yr,
-        COUNT(*)                                        AS patient_count,
-        ROUND(AVG(systolic_bp)::NUMERIC,       1)       AS avg_systolic_bp,
-        ROUND(AVG(diastolic_bp)::NUMERIC,      1)       AS avg_diastolic_bp,
-        ROUND(AVG(total_cholesterol)::NUMERIC, 1)       AS avg_cholesterol,
-        ROUND(AVG(bmi)::NUMERIC,               1)       AS avg_bmi,
-        ROUND(AVG(glucose_level)::NUMERIC,     1)       AS avg_glucose,
-        ROUND(AVG(heart_rate)::NUMERIC,        1)       AS avg_heart_rate
+        COUNT(*)  AS patient_count,
+        ROUND(AVG(systolic_bp)::NUMERIC,1) AS avg_systolic_bp,
+        ROUND(AVG(diastolic_bp)::NUMERIC, 1) AS avg_diastolic_bp,
+        ROUND(AVG(total_cholesterol)::NUMERIC,1)AS avg_cholesterol,
+        ROUND(AVG(bmi)::NUMERIC, 1)AS avg_bmi,
+        ROUND(AVG(glucose_level)::NUMERIC,1) AS avg_glucose,
+        ROUND(AVG(heart_rate)::NUMERIC,  1) AS avg_heart_rate
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY chd_risk_10yr
@@ -323,11 +347,11 @@
 
     SELECT
         education_level,
-        COUNT(*)                                                                              AS total_patients,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                               AS chd_cases,
-        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)  AS chd_risk_pct,
-        ROUND(AVG(age)::NUMERIC, 1)                                                           AS avg_age,
-        ROUND(100.0 * SUM(CASE WHEN is_smoker = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)      AS smoker_pct
+        COUNT(*)  AS total_patients,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_cases,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_risk_pct,
+        ROUND(AVG(age)::NUMERIC, 1)  AS avg_age,
+        ROUND(100.0 * SUM(CASE WHEN is_smoker = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS smoker_pct
     FROM framingham_cleaned
     WHERE has_outlier_flag   = False
     AND education_level   != 'Unknown'
@@ -353,20 +377,20 @@
     -- =====================================================
 
     SELECT
-        (CASE WHEN is_smoker        = 'Yes' THEN 1 ELSE 0 END
+        (CASE WHEN is_smoker  = 'Yes' THEN 1 ELSE 0 END
     + CASE WHEN has_hypertension = 'Yes' THEN 1 ELSE 0 END
-    + CASE WHEN has_diabetes     = 'Yes' THEN 1 ELSE 0 END
-    + CASE WHEN had_stroke       = 'Yes' THEN 1 ELSE 0 END) AS risk_factor_count,
-        COUNT(*)                                                                              AS total_patients,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                               AS chd_cases,
-        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)  AS chd_pct
+    + CASE WHEN has_diabetes = 'Yes' THEN 1 ELSE 0 END
+    + CASE WHEN had_stroke = 'Yes' THEN 1 ELSE 0 END) AS risk_factor_count,
+        COUNT(*)  AS total_patients,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_cases,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_pct
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY risk_factor_count
     ORDER BY risk_factor_count;
 
 
-
+ 
     -- =====================================================
     -- 17. CHOLESTEROL RISK BANDS VS CHD
     --     Follows standard clinical thresholds.
@@ -374,13 +398,13 @@
 
     SELECT
         CASE
-            WHEN total_cholesterol < 200              THEN '1. Desirable (<200)'
+            WHEN total_cholesterol < 200 THEN '1. Desirable (<200)'
             WHEN total_cholesterol BETWEEN 200 AND 239 THEN '2. Borderline (200-239)'
-            ELSE                                           '3. High (240+)'
-        END                                                                                    AS cholesterol_band,
-        COUNT(*)                                                                               AS total_patients,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                                AS chd_cases,
-        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)   AS chd_pct
+            ELSE '3. High (240+)'
+        END  AS cholesterol_band,
+        COUNT(*)  AS total_patients,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_cases,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_pct
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY cholesterol_band
@@ -398,12 +422,12 @@
             WHEN systolic_bp < 120              THEN '1. Normal (<120)'
             WHEN systolic_bp BETWEEN 120 AND 129 THEN '2. Elevated (120-129)'
             WHEN systolic_bp BETWEEN 130 AND 139 THEN '3. Stage 1 HBP (130-139)'
-            ELSE                                     '4. Stage 2 HBP (140+)'
-        END                                                                                    AS bp_category,
-        COUNT(*)                                                                               AS total_patients,
-        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)                                AS chd_cases,
-        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2)   AS chd_pct,
-        ROUND(AVG(systolic_bp)::NUMERIC, 1)                                                    AS avg_sbp
+            ELSE '4. Stage 2 HBP (140+)'
+        END  AS bp_category,
+        COUNT(*)  AS total_patients,
+        SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_cases,
+        ROUND(100.0 * SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) / COUNT(*), 2) AS chd_pct,
+        ROUND(AVG(systolic_bp)::NUMERIC, 1) AS avg_sbp
     FROM framingham_cleaned
     WHERE has_outlier_flag = False
     GROUP BY bp_category
@@ -419,9 +443,9 @@
 
     SELECT
         CASE
-            WHEN glucose_level < 100              THEN '1. Normal (<100)'
+            WHEN glucose_level < 100  THEN '1. Normal (<100)'
             WHEN glucose_level BETWEEN 100 AND 125 THEN '2. Pre-diabetic (100-125)'
-            ELSE                                       '3. Diabetic Range (126+)'
+            ELSE  '3. Diabetic Range (126+)'
         END  AS glucose_band,
         COUNT(*)   AS total_patients,
         SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)  AS chd_cases,
@@ -441,9 +465,9 @@
 
     SELECT
         CASE
-            WHEN heart_rate < 60              THEN '1. Low (<60 bpm)'
+            WHEN heart_rate < 60  THEN '1. Low (<60 bpm)'
             WHEN heart_rate BETWEEN 60 AND 99  THEN '2. Normal (60-99 bpm)'
-            ELSE                                   '3. Elevated (100+ bpm)'
+            ELSE '3. Elevated (100+ bpm)'
         END AS hr_band,
         COUNT(*)  AS total_patients,
         SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END)AS chd_cases,
@@ -481,3 +505,9 @@
                 WHEN '50-59' THEN 3 WHEN '60-69' THEN 4 ELSE 5 END);
 
 
+  
+
+     SELECT 
+        * 
+     FROM framingham_cleaned
+     WHERE  has_outlier_flag = TRUE   
