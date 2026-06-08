@@ -190,20 +190,22 @@
     SELECT
         gender,
         CASE
-            WHEN cigarettes_per_day BETWEEN 1 AND 19 THEN 'Normal Smoker'
-            WHEN cigarettes_per_day BETWEEN 20 AND 39 THEN 'Average Smoker'
-            WHEN cigarettes_per_day BETWEEN 40 AND 59 THEN 'Heavy Smoker'
-            WHEN cigarettes_per_day >= 60 THEN 'Ultra Smoker'
+            WHEN cigarettes_per_day = 0  THEN '0. Non-Smoker'
+            WHEN cigarettes_per_day BETWEEN 1  AND 19  THEN '1. Normal Smoker (1-19)'
+            WHEN cigarettes_per_day BETWEEN 20 AND 39  THEN '2. Average Smoker (20-39)'
+            WHEN cigarettes_per_day BETWEEN 40 AND 59  THEN '3. Heavy Smoker (40-59)'
+            ELSE NULL
         END AS smoker_band,
         COUNT(*) AS total_people,
         SUM(CASE WHEN chd_risk_10yr = 'Yes' THEN 1 ELSE 0 END) AS chd_positive,
-        ROUND(100.0 * AVG( CASE WHEN chd_risk_10yr = 'Yes' THEN 1.0 ELSE 0.0 END ), 2) AS chd_risk_pct,
-    ROUND(AVG(cigarettes_per_day)::NUMERIC, 1) AS avg_cigarettes
+        ROUND(100.0 * AVG(CASE WHEN chd_risk_10yr = 'Yes' THEN 1.0 ELSE 0.0 END), 2) AS chd_risk_pct,
+        ROUND(AVG(cigarettes_per_day)::NUMERIC, 1) AS avg_cigarettes
     FROM framingham_cleaned
     WHERE has_outlier_flag = FALSE
-    AND cigarettes_per_day > 0
-    GROUP BY  gender,smoker_band
-    ORDER BY gender, avg_cigarettes;
+    AND cigarettes_per_day IS NOT NULL   
+    GROUP BY gender, smoker_band
+
+    ORDER BY gender, smoker_band;
 
 
 
