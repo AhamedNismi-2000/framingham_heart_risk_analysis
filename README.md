@@ -24,8 +24,8 @@ framingham-heart-disease/
 │   └── framingham_dashboard.pbix         # 2-page interactive Power BI dashboard
 │
 ├── images/
-│   ├── page1_chd_risk_overview.png       # Dashboard screenshot — Page 1
-│   └── page2_clinical_socioeconomic.png  # Dashboard screenshot — Page 2
+│   ├── chd_risk_overview.png       # Dashboard screenshot — Page 1
+│   └── clinical_socioeconomic.png  # Dashboard screenshot — Page 2
 │
 └── README.md
 ```
