@@ -161,9 +161,9 @@ Lower formal education correlates with higher CHD risk, likely mediated through 
 
 ## 📈 Power BI Dashboard
 
-![Clinical and Socioeconomic Factors]![Dashboard Overview](./images/chd_risk_overview.png)
-
 ### Page 1 — 🫀 CHD Risk Overview
+![CHD Risk Overview](./images/chd_risk_overview.png)
+
 - 7 KPI cards (Total Patients, CHD Cases, CHD Rate %, Avg Age, Hypertension %, Smoker %, Avg BMI)
 - CHD Risk Distribution donut chart
 - CHD Risk Climbs with Age — line chart
@@ -175,6 +175,8 @@ Lower formal education correlates with higher CHD risk, likely mediated through 
 - Slicers: Gender · Age Group
 
 ### Page 2 — 📊 Clinical & Socioeconomic Factors
+![Clinical and Socioeconomic Factors](./images/clinical_socioeconomic.png)
+
 - Cholesterol vs CHD — bar chart
 - Stroke History vs CHD — bar chart
 - BMI Band vs CHD — bar chart
@@ -247,6 +249,6 @@ Outlier rows carry nearly **2× the CHD rate** (26.5% vs 13.4%), skewing populat
 
 ## 👤 Author
 
-** Nismi.MNA **
+**Nismi.MNA**
 Data Analyst Portfolio Project
 Dataset: Framingham Heart Study — Kaggle
