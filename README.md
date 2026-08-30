@@ -1,6 +1,6 @@
 # 🫀 Framingham Heart Disease — Data Analyst Project
 
-![CHD Risk Overview](./images/chd_risk_overview.png)
+![Dashboard Overview](images/chd_risk_overview.png)
 
 > **Objective:** Explore the clinical, demographic, and socioeconomic factors associated with 10-year Coronary Heart Disease (CHD) risk using the Framingham Heart Study dataset from Kaggle.
 
