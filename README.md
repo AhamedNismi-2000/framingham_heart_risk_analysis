@@ -1,6 +1,6 @@
 # 🫀 Framingham Heart Disease — Data Analyst Project
 
-![Dashboard Overview](images/chd_risk_overview.png)
+![Dashboard Overview](./images/chd_risk_overview.png)
 
 > **Objective:** Explore the clinical, demographic, and socioeconomic factors associated with 10-year Coronary Heart Disease (CHD) risk using the Framingham Heart Study dataset from Kaggle.
 
@@ -161,7 +161,7 @@ Lower formal education correlates with higher CHD risk, likely mediated through 
 
 ## 📈 Power BI Dashboard
 
-![Clinical and Socioeconomic Factors](images/clinical_socioeconomic.png)
+![Clinical and Socioeconomic Factors]![Dashboard Overview](./images/chd_risk_overview.png)
 
 ### Page 1 — 🫀 CHD Risk Overview
 - 7 KPI cards (Total Patients, CHD Cases, CHD Rate %, Avg Age, Hypertension %, Smoker %, Avg BMI)
