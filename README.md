@@ -173,6 +173,7 @@ Lower formal education correlates with higher CHD risk, likely mediated through 
 - Slicers: Gender · Age Group
 
 ### Page 2 — 📊 Clinical & Socioeconomic Factors
+![CHD Risk Overview](./images/chd_risk_overview.png)
 ![Clinical and Socioeconomic Factors](./images/clinical_socioeconomic.png)
 
 - Cholesterol vs CHD — bar chart
